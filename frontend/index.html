@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PriceAlert Pro | Real-Time Trading Alerts</title>
+    <meta name="description"
+        content="Track 55+ instruments and get instant price alerts. Crypto, stocks, indices, and commodities.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-gradient"></div>
+        <div class="bg-grid"></div>
+        <div class="floating-orbs">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <div class="logo">
+                    <svg viewBox="0 0 40 40" class="logo-icon">
+                        <defs>
+                            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00D9FF" />
+                                <stop offset="100%" style="stop-color:#8B5CF6" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M20 4L4 12v16l16 8 16-8V12L20 4zm0 4l12 6-12 6-12-6 12-6z" fill="url(#logoGradient)" />
+                        <path d="M8 16v10l12 6 12-6V16l-12 6-12-6z" fill="url(#logoGradient)" opacity="0.6" />
+                    </svg>
+                    <span class="brand-text">PriceAlert<span class="brand-accent">Pro</span></span>
+                </div>
+            </div>
+
+            <div class="nav-center">
+                <button class="nav-tab active" data-tab="dashboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" rx="1" />
+                        <rect x="14" y="3" width="7" height="7" rx="1" />
+                        <rect x="3" y="14" width="7" height="7" rx="1" />
+                        <rect x="14" y="14" width="7" height="7" rx="1" />
+                    </svg>
+                    Dashboard
+                </button>
+                <button class="nav-tab" data-tab="alerts">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
+                    Alerts
+                </button>
+                <button class="nav-tab" data-tab="watchlist">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon
+                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                    </svg>
+                    Watchlist
+                </button>
+            </div>
+
+            <div class="nav-right">
+                <div class="connection-status" id="connectionStatus">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Connecting...</span>
+                </div>
+                <div class="user-menu" id="userMenu">
+                    <button class="btn btn-primary" id="loginBtn">Sign In</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Market Overview Section -->
+            <section class="market-overview">
+                <div class="section-header">
+                    <h2>Market Overview</h2>
+                    <div class="market-time">
+                        <span class="live-indicator"></span>
+                        <span id="marketTime">--:--:--</span>
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="quick-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon crypto">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M9.5 8h5l-3 4h3l-5 6 1-4H8l1.5-6z" />
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Crypto 24h</span>
+                            <span class="stat-value" id="cryptoChange">+2.4%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon stocks">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                                <polyline points="17 6 23 6 23 12" />
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Active Alerts</span>
+                            <span class="stat-value" id="activeAlerts">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon alerts">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Triggered Today</span>
+                            <span class="stat-value" id="triggeredToday">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon instruments">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="8" x2="12" y2="12" />
+                                <line x1="12" y1="16" x2="12.01" y2="16" />
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-label">Instruments</span>
+                            <span class="stat-value">55+</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Price Grid -->
+            <section class="price-section">
+                <div class="section-header">
+                    <h2>Live Prices</h2>
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-filter="all">All</button>
+                        <button class="filter-tab" data-filter="crypto">Crypto</button>
+                        <button class="filter-tab" data-filter="stocks">Stocks</button>
+                        <button class="filter-tab" data-filter="indices">Indices</button>
+                        <button class="filter-tab" data-filter="commodities">Commodities</button>
+                    </div>
+                </div>
+
+                <div class="price-grid" id="priceGrid">
+                    <!-- Price cards will be dynamically inserted -->
+                    <div class="loading-state">
+                        <div class="loader"></div>
+                        <span>Connecting to market data...</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Your Alerts Section -->
+            <section class="alerts-section" id="alertsSection">
+                <div class="section-header">
+                    <h2>Your Alerts</h2>
+                    <button class="btn btn-gradient" id="createAlertBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg>
+                        Create Alert
+                    </button>
+                </div>
+
+                <div class="alerts-list" id="alertsList">
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                        </svg>
+                        <h3>No alerts yet</h3>
+                        <p>Create your first price alert to get started</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Create Alert Modal -->
+    <div class="modal" id="alertModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Price Alert</h3>
+                <button class="modal-close" id="closeModal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+            <form id="alertForm">
+                <div class="form-group">
+                    <label>Select Instrument</label>
+                    <div class="select-wrapper">
+                        <select id="alertSymbol" required>
+                            <option value="">Choose an instrument...</option>
+                            <optgroup label="Crypto">
+                                <option value="BTC">Bitcoin (BTC)</option>
+                                <option value="ETH">Ethereum (ETH)</option>
+                                <option value="SOL">Solana (SOL)</option>
+                                <option value="XRP">Ripple (XRP)</option>
+                                <option value="ADA">Cardano (ADA)</option>
+                                <option value="DOGE">Dogecoin (DOGE)</option>
+                            </optgroup>
+                            <optgroup label="Stocks">
+                                <option value="APPLE">Apple</option>
+                                <option value="MICROSOFT">Microsoft</option>
+                                <option value="NVIDIA">Nvidia</option>
+                                <option value="TESLA">Tesla</option>
+                                <option value="RELIANCE">Reliance</option>
+                                <option value="TCS">TCS</option>
+                            </optgroup>
+                            <optgroup label="Indices">
+                                <option value="NIFTY50">NIFTY 50</option>
+                                <option value="SENSEX">SENSEX</option>
+                                <option value="SP500">S&P 500</option>
+                                <option value="NASDAQ">NASDAQ</option>
+                            </optgroup>
+                            <optgroup label="Commodities">
+                                <option value="GOLD">Gold</option>
+                                <option value="SILVER">Silver</option>
+                                <option value="CRUDE_OIL">Crude Oil</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="current-price" id="selectedPrice">
+                        Select an instrument to see current price
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Alert Condition</label>
+                    <div class="condition-buttons">
+                        <button type="button" class="condition-btn active" data-condition="above">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="18 15 12 9 6 15" />
+                            </svg>
+                            Above
+                        </button>
+                        <button type="button" class="condition-btn" data-condition="below">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9" />
+                            </svg>
+                            Below
+                        </button>
+                        <button type="button" class="condition-btn" data-condition="crosses">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                            Crosses
+                        </button>
+                    </div>
+                    <input type="hidden" id="alertCondition" value="above">
+                </div>
+
+                <div class="form-group">
+                    <label>Target Price</label>
+                    <div class="price-input-wrapper">
+                        <span class="currency-symbol">$</span>
+                        <input type="number" id="alertPrice" step="0.01" min="0" required placeholder="0.00">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Notify via</label>
+                    <div class="notification-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="notifyEmail" checked>
+                            <span class="checkbox-custom"></span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <polyline points="22,6 12,13 2,6" />
+                            </svg>
+                            Email
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="notifySMS">
+                            <span class="checkbox-custom"></span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+                                <line x1="12" y1="18" x2="12.01" y2="18" />
+                            </svg>
+                            SMS
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-ghost" id="cancelAlert">Cancel</button>
+                    <button type="submit" class="btn btn-gradient">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                        </svg>
+                        Create Alert
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="modal" id="authModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content auth-modal">
+            <div class="modal-header">
+                <h3 id="authTitle">Sign In</h3>
+                <button class="modal-close" id="closeAuthModal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+            <form id="authForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="authEmail" required placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="authPassword" required placeholder="••••••••">
+                </div>
+                <div class="form-group register-only" style="display: none;">
+                    <label>Phone (Optional)</label>
+                    <input type="tel" id="authPhone" placeholder="+1234567890">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-gradient btn-full" id="authSubmit">Sign In</button>
+                </div>
+                <div class="auth-switch">
+                    <span id="authSwitchText">Don't have an account?</span>
+                    <button type="button" class="btn-link" id="authSwitchBtn">Sign Up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
