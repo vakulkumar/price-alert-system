@@ -1,0 +1,35 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Kafka metrics via kafka-exporter
+  - job_name: 'kafka'
+    static_configs:
+      - targets: ['kafka-exporter:9308']
+
+  # Application services
+  - job_name: 'ingestor'
+    static_configs:
+      - targets: ['ingestor:8001']
+    metrics_path: /metrics
+
+  - job_name: 'evaluator'
+    static_configs:
+      - targets: ['evaluator:8002']
+    metrics_path: /metrics
+
+  - job_name: 'notifier'
+    static_configs:
+      - targets: ['notifier:8003']
+    metrics_path: /metrics
+
+  - job_name: 'gateway'
+    static_configs:
+      - targets: ['gateway:8000']
+    metrics_path: /metrics
