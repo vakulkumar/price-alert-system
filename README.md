@@ -1,6 +1,6 @@
 # 🚀 Real-Time Price Alert System
 
-A production-ready microservices system that tracks 50+ financial instruments (BTC, NIFTY, GOLD) and triggers alerts to users when price conditions are met.
+A production-ready microservices system that tracks 55+ financial instruments (BTC, NIFTY, GOLD) and triggers alerts to users when price conditions are met. Includes a premium trading-style dashboard.
 
 ![Architecture](https://img.shields.io/badge/Architecture-Microservices-blue)
 ![Kafka](https://img.shields.io/badge/Message_Queue-Apache_Kafka-orange)
@@ -27,17 +27,25 @@ A production-ready microservices system that tracks 50+ financial instruments (B
 ┌─────────────┐     ┌─────────────┐     ┌───────────┴───┐
 │   Gateway   │────▶│  PostgreSQL │     │  Prometheus   │
 │  (REST API) │     │  (Database) │     │   + Grafana   │
-└─────────────┘     └─────────────┘     └───────────────┘
+└──────┬──────┘     └─────────────┘     └───────────────┘
+       │
+       ▼
+┌─────────────┐
+│  Frontend   │
+│ (Dashboard) │
+└─────────────┘
 ```
 
 ## ✨ Features
 
-- **50+ Instruments**: Crypto (BTC, ETH, SOL...), Stocks (AAPL, RELIANCE...), Indices (NIFTY, S&P500), Commodities (GOLD, SILVER)
+- **55+ Instruments**: Crypto (BTC, ETH, SOL...), Stocks (AAPL, RELIANCE...), Indices (NIFTY, S&P500), Commodities (GOLD, SILVER)
+- **Premium Dashboard**: TradingView-inspired dark theme with glassmorphism, real-time price cards, WebSocket streaming
 - **4 Alert Types**: Above, Below, Crosses, Range
 - **Multi-Channel Notifications**: Email (SMTP) and SMS (Twilio)
 - **Real-Time Streaming**: WebSocket for live price updates
 - **Scalable**: Kafka handles price spikes, horizontal scaling ready
 - **Observable**: Prometheus metrics + Grafana dashboards
+
 
 ## 🚀 Quick Start
 
@@ -105,6 +113,7 @@ curl -X POST http://localhost:8000/alerts \
 
 | Service | URL | Credentials |
 |---------|-----|-------------|
+| **Frontend** | http://localhost:3001 | - |
 | API Docs | http://localhost:8000/docs | - |
 | Kafka UI | http://localhost:8080 | - |
 | Prometheus | http://localhost:9090 | - |
@@ -142,6 +151,10 @@ TWILIO_PHONE_NUMBER=+1234567890
 ```
 price-alert-system/
 ├── docker-compose.yml      # One-command deployment
+├── frontend/               # Trading dashboard (Vanilla JS)
+│   ├── index.html          # Main HTML
+│   ├── styles.css          # Glassmorphism dark theme
+│   └── app.js              # WebSocket + API integration
 ├── ingestor/               # Price fetching service
 │   └── providers/          # CoinGecko, Yahoo Finance
 ├── evaluator/              # Alert matching service
@@ -157,8 +170,9 @@ price-alert-system/
 
 This project demonstrates:
 
-- **Microservices Architecture**: 4 independent services with clear boundaries
+- **Microservices Architecture**: 4 backend services + 1 frontend with clear boundaries
 - **Event-Driven Design**: Kafka for decoupled, scalable communication
+- **Premium UI/UX**: TradingView-inspired dashboard with glassmorphism
 - **Real-Time Processing**: Sub-second price updates via WebSocket
 - **Observability**: Prometheus metrics, Grafana dashboards, Kafka lag monitoring
 - **Production Patterns**: Rate limiting, cooldowns, retry logic, health checks
